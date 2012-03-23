@@ -11,7 +11,7 @@ public class Start {
 		final SocketConnector connector = new SocketConnector();
 		connector.setMaxIdleTime(1000 * 60 * 60);
 		connector.setSoLingerTime(-1);
-		connector.setPort(8080);
+		connector.setPort(Integer.valueOf(System.getenv("PORT")));
 		server.setConnectors(new Connector[] { connector });
 		final WebAppContext bb = new WebAppContext();
 		bb.setServer(server);
