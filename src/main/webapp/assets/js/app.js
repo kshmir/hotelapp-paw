@@ -1,6 +1,6 @@
 (function() {
 	$(document).ready(function() {
-		var baseUrl = window.basePath;
+		var baseUrl = basePath;
 		
 		$(".js-hotel-list").on("click", ".js-hotel-list .js-btn-delete", function() {
 			$this = $(this);

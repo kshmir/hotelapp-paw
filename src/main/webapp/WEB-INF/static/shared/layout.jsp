@@ -13,7 +13,7 @@
 	<script type="text/javascript" src="${ basePath }/assets/js/jquery.js"></script>
 	<script type="text/javascript" src="${ basePath }/assets/js/bootstrap-modal.js"></script>
 	<script type="text/javascript">
-		var window.basePath = "${ basePath }";
+		basePath = "${ basePath }";
 	</script>
 	<script type="text/javascript" src="${ basePath }/assets/js/app.js"></script>
 </head>
