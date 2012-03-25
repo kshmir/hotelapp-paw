@@ -1,5 +1,7 @@
 package ar.edu.itba.it.paw.db.managers;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.SQLException;
@@ -14,7 +16,7 @@ import ar.edu.itba.it.paw.db.ConnectionManager;
  */
 public class PostgreConnectionManager implements ConnectionManager {
 
-	private final String connectionString;
+	private String connectionString;
 
 	private Connection conn;
 
@@ -40,7 +42,29 @@ public class PostgreConnectionManager implements ConnectionManager {
 		} catch (final ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		this.connectionString = "￼￼jdbc:postgresql://localhost:5432/hotelapp";
+
+		// Heroku support
+		if (System.getenv("DATABASE_URL") != null) {
+			URI dbUri;
+			try {
+				dbUri = new URI(System.getenv("DATABASE_URL"));
+				final String username = dbUri.getUserInfo().split(":")[0];
+				final String password = dbUri.getUserInfo().split(":")[1];
+				final String dbUrl = "jdbc:postgresql://" + dbUri.getHost()
+						+ dbUri.getPath();
+				this.connectionString = dbUrl;
+
+				this.username = username;
+				this.password = password;
+			} catch (final URISyntaxException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		if (this.connectionString == null) {
+			this.connectionString = "￼￼jdbc:postgresql://localhost:5432/hotelapp";
+		}
 	}
 
 	public Connection getConnection() throws SQLException {
