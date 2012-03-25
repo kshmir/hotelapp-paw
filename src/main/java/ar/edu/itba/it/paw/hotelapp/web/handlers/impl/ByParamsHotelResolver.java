@@ -6,6 +6,11 @@ import ar.edu.itba.it.paw.hotelapp.model.api.Hotel;
 import ar.edu.itba.it.paw.hotelapp.repositories.api.HotelRepository;
 import ar.edu.itba.it.paw.hotelapp.web.handlers.api.Resolver;
 
+/**
+ * Gets an instance of the hotel from it's repository, if exists
+ * 
+ * @author cris
+ */
 public class ByParamsHotelResolver implements Resolver<Hotel> {
 
 	private HttpServletRequest request;

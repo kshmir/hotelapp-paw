@@ -1,4 +1,4 @@
-package ar.edu.itba.it.paw.hotelapp.repositories.impl;
+package ar.edu.itba.it.paw.hotelapp.repositories.base;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -6,6 +6,7 @@ import org.junit.Test;
 import ar.edu.itba.it.paw.hotelapp.model.api.User;
 import ar.edu.itba.it.paw.hotelapp.model.impl.SimpleUser;
 import ar.edu.itba.it.paw.hotelapp.repositories.api.UserRepository;
+import ar.edu.itba.it.paw.hotelapp.test.TransactionalTest;
 
 public abstract class UserRepositoryTest extends TransactionalTest {
 

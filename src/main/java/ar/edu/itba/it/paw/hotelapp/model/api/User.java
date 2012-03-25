@@ -1,6 +1,14 @@
 package ar.edu.itba.it.paw.hotelapp.model.api;
 
-public interface User extends Identificable {
+import ar.edu.itba.it.paw.hotelapp.model.api.base.Entity;
+import ar.edu.itba.it.paw.hotelapp.model.api.base.Identificable;
+
+/**
+ * User interface
+ * 
+ * @author cris
+ */
+public interface User extends Identificable, Entity {
 	public String getUserName();
 
 	public String getEmail();

@@ -1,32 +1,37 @@
 package ar.edu.itba.it.paw.hotelapp.model.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ar.edu.itba.it.paw.hotelapp.model.api.Comment;
 import ar.edu.itba.it.paw.hotelapp.model.api.Hotel;
 
+/**
+ * Hotel implementation
+ * 
+ * @author cris
+ */
 public class SimpleHotel implements Hotel {
 
-	private int code;
+	private Integer code;
 	private String name;
 	private String description;
-	private List<Comment> comments;
+	private Collection<Comment> comments;
+	private boolean isDirty = false;
 
-	public SimpleHotel(final int code, final String name,
-			final String description) {
-		this(code, name, description, new ArrayList<Comment>());
+	public SimpleHotel(final String name, final String description) {
+		this(name, description, new ArrayList<Comment>());
 	}
 
-	public SimpleHotel(final int code, final String name,
-			final String description, final List<Comment> comments) {
-		this.code = code;
+	public SimpleHotel(final String name, final String description,
+			final List<Comment> comments) {
 		this.name = name;
 		this.description = description;
 		this.comments = comments;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.code;
 	}
 
@@ -50,8 +55,12 @@ public class SimpleHotel implements Hotel {
 		this.description = description;
 	}
 
-	public List<Comment> getComments() {
+	public Collection<Comment> getComments() {
 		return this.comments;
+	}
+
+	public void setComments(final Collection<Comment> comments) {
+		this.comments = comments;
 	}
 
 	@Override
@@ -80,4 +89,19 @@ public class SimpleHotel implements Hotel {
 		return true;
 	}
 
+	public int getCommentableId() {
+		return this.code;
+	}
+
+	public String getCommentableType() {
+		return this.getClass().getSimpleName();
+	}
+
+	public boolean isDirty() {
+		return this.isDirty;
+	}
+
+	public void declareDirty() {
+		this.isDirty = true;
+	}
 }

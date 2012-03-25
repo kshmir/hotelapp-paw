@@ -1,6 +1,15 @@
 package ar.edu.itba.it.paw.hotelapp.model.api;
 
-public interface Hotel extends Commentable, Identificable {
+import ar.edu.itba.it.paw.hotelapp.model.api.base.Commentable;
+import ar.edu.itba.it.paw.hotelapp.model.api.base.Entity;
+import ar.edu.itba.it.paw.hotelapp.model.api.base.Identificable;
+
+/**
+ * Hotel interface
+ * 
+ * @author cris
+ */
+public interface Hotel extends Commentable, Identificable, Entity {
 	public String getName();
 
 	public void setName(String name);

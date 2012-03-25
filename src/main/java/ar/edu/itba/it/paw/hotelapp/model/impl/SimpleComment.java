@@ -2,16 +2,30 @@ package ar.edu.itba.it.paw.hotelapp.model.impl;
 
 import ar.edu.itba.it.paw.hotelapp.model.api.Comment;
 import ar.edu.itba.it.paw.hotelapp.model.api.User;
+import ar.edu.itba.it.paw.hotelapp.model.api.base.Commentable;
 
+/**
+ * Comment implementation
+ * 
+ * @author cris
+ */
 public class SimpleComment implements Comment {
 
 	private User user;
 	private String content;
-	private int id;
+	private Integer id;
+	private boolean isDirty = false;
+	private Commentable owner;
 
 	public SimpleComment(final String content, final User user) {
+		this(content, user, null);
+	}
+
+	public SimpleComment(final String content, final User user,
+			final Commentable owner) {
 		this.content = content;
 		this.user = user;
+		this.owner = owner;
 	}
 
 	public String getContent() {
@@ -22,7 +36,7 @@ public class SimpleComment implements Comment {
 		return this.user;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
@@ -54,5 +68,21 @@ public class SimpleComment implements Comment {
 			return false;
 		}
 		return true;
+	}
+
+	public boolean isDirty() {
+		return this.isDirty;
+	}
+
+	public void declareDirty() {
+		this.isDirty = true;
+	}
+
+	public Commentable getOwner() {
+		return this.owner;
+	}
+
+	public void setOwner(final Commentable owner) {
+		this.owner = owner;
 	}
 }

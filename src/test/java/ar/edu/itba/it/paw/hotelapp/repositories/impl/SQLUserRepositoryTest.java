@@ -1,6 +1,7 @@
 package ar.edu.itba.it.paw.hotelapp.repositories.impl;
 
 import ar.edu.itba.it.paw.hotelapp.repositories.api.UserRepository;
+import ar.edu.itba.it.paw.hotelapp.repositories.base.UserRepositoryTest;
 
 public class SQLUserRepositoryTest extends UserRepositoryTest {
 

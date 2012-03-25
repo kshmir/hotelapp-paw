@@ -2,12 +2,18 @@ package ar.edu.itba.it.paw.hotelapp.model.impl;
 
 import ar.edu.itba.it.paw.hotelapp.model.api.User;
 
+/**
+ * Base user implementation
+ * 
+ * @author cris
+ */
 public class SimpleUser implements User {
 
 	private String userName;
 	private String password;
 	private String email;
-	private int id;
+	private Integer id;
+	private boolean isDirty;
 
 	public SimpleUser(final String userName, final String password,
 			final String email) {
@@ -28,7 +34,7 @@ public class SimpleUser implements User {
 		return this.email;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
@@ -62,4 +68,11 @@ public class SimpleUser implements User {
 		return true;
 	}
 
+	public boolean isDirty() {
+		return this.isDirty;
+	}
+
+	public void declareDirty() {
+		this.isDirty = true;
+	}
 }

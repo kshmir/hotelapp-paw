@@ -5,6 +5,11 @@ import java.util.List;
 import ar.edu.itba.it.paw.hotelapp.model.api.Hotel;
 import ar.edu.itba.it.paw.hotelapp.repositories.api.HotelRepository;
 
+/**
+ * Base implementation for quick applications
+ * 
+ * @author cris
+ */
 public class InMemoryHotelRepository implements HotelRepository {
 
 	private List<Hotel> hotels;
@@ -30,7 +35,11 @@ public class InMemoryHotelRepository implements HotelRepository {
 		throw new IllegalArgumentException("Hotel not found");
 	}
 
-	public void saveHotel(final Hotel hotel) {
+	public void saveOrUpdateHotel(final Hotel hotel) {
 		this.hotels.add(hotel);
+	}
+
+	public void deleteHotel(final Hotel hotel) {
+		this.hotels.remove(hotel);
 	}
 }

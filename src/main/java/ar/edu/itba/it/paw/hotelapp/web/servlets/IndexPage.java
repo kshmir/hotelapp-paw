@@ -46,7 +46,7 @@ public class IndexPage extends HttpServlet {
 			userPersister.persist(u);
 			resp.sendRedirect("hotels");
 		} catch (final IllegalArgumentException e) {
-			req.getRequestDispatcher(errorPage).forward(req, resp);
+			HtmlHelper.render(errorPage, req, resp);
 		}
 	}
 }

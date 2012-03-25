@@ -12,3 +12,14 @@ CREATE TABLE hotels
   description character varying(50),
   name character varying(50)
 );
+
+
+  
+CREATE TABLE comments
+(
+  user_id integer,
+  commentable_id integer,
+  commentable_type character varying(50),
+  content character varying(1024),
+  id integer PRIMARY KEY AUTOINCREMENT
+);

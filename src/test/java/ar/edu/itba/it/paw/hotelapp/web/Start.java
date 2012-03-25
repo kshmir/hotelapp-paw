@@ -11,11 +11,17 @@ public class Start {
 		final SocketConnector connector = new SocketConnector();
 		connector.setMaxIdleTime(1000 * 60 * 60);
 		connector.setSoLingerTime(-1);
-		connector.setPort(Integer.valueOf(System.getenv("PORT")));
+		Integer port;
+		try {
+			port = Integer.valueOf(System.getenv("PORT"));
+		} catch (final Exception e) {
+			port = 8080;
+		}
+		connector.setPort(port);
 		server.setConnectors(new Connector[] { connector });
 		final WebAppContext bb = new WebAppContext();
 		bb.setServer(server);
-		bb.setContextPath("/HotelApp");
+		bb.setContextPath("/");
 		bb.setWar("src/main/webapp");
 		server.addHandler(bb);
 		try {

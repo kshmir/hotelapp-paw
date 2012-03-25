@@ -1,7 +1,8 @@
 package ar.edu.itba.it.paw.hotelapp.web.handlers.api;
 
 /**
- * This interface should be used to persist in memory any kind of object
+ * This interface should be used to persist in memory any kind of object (ex:
+ * session)
  * 
  * @author Cristian Pereyra
  * 
@@ -16,5 +17,8 @@ public interface Persister<T> {
 	 */
 	public boolean persist(T t);
 
+	/**
+	 * @return True if the object was taken of the persistance store
+	 */
 	public boolean unlink();
 }

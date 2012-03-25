@@ -6,6 +6,11 @@ import javax.servlet.http.HttpSession;
 import ar.edu.itba.it.paw.hotelapp.model.api.User;
 import ar.edu.itba.it.paw.hotelapp.web.handlers.api.Manager;
 
+/**
+ * Manages all the persistance of a user inside the session
+ * 
+ * @author cris
+ */
 public class SessionUserManager extends Manager<User> {
 
 	private HttpSession session;

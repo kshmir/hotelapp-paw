@@ -11,10 +11,10 @@ import ar.edu.itba.it.paw.hotelapp.model.api.Comment;
 import ar.edu.itba.it.paw.hotelapp.model.api.Hotel;
 import ar.edu.itba.it.paw.hotelapp.model.api.User;
 import ar.edu.itba.it.paw.hotelapp.repositories.RepositoryFactory;
-import ar.edu.itba.it.paw.hotelapp.repositories.api.CommentRepository;
+import ar.edu.itba.it.paw.hotelapp.repositories.api.HotelRepository;
 import ar.edu.itba.it.paw.hotelapp.web.handlers.api.Builder;
 import ar.edu.itba.it.paw.hotelapp.web.handlers.api.Resolver;
-import ar.edu.itba.it.paw.hotelapp.web.handlers.impl.ByParamsHotelCommentBuilder;
+import ar.edu.itba.it.paw.hotelapp.web.handlers.impl.ByParamsCommentBuilder;
 import ar.edu.itba.it.paw.hotelapp.web.handlers.impl.ByParamsHotelResolver;
 import ar.edu.itba.it.paw.hotelapp.web.handlers.impl.SessionUserManager;
 
@@ -29,16 +29,19 @@ public class CommentsPage extends HttpServlet {
 		final Resolver<Hotel> hotelResolver = new ByParamsHotelResolver(req,
 				RepositoryFactory.getHotelRepository());
 		final Resolver<User> userResolver = new SessionUserManager(req);
-		final Builder<Comment> commentResolver = new ByParamsHotelCommentBuilder(
+		final Builder<Comment> commentResolver = new ByParamsCommentBuilder(
 				req, userResolver);
 
-		final CommentRepository commentRepo = RepositoryFactory
-				.getCommentRepository();
+		final HotelRepository repo = RepositoryFactory.getHotelRepository();
 
 		final Hotel hotel = hotelResolver.resolve();
 		final Comment comment = commentResolver.buildNew();
 
-		commentRepo.saveComment(hotel, comment);
+		comment.setOwner(hotel);
+
+		hotel.getComments().add(comment);
+
+		repo.saveOrUpdateHotel(hotel);
 
 		resp.sendRedirect(req.getHeader("Referer"));
 	}

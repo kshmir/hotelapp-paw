@@ -1,17 +1,32 @@
-<h2>Bienvenido!</h2>
-
-<hr/>
-
-<form action='.' method='POST' class="form">
-	<div class="row">
-		<div class="span4">User: </div>
-		<div class="span8"><input type='text' name='user_name' class="span8"></div>
+<div class="row">
+	<div class="offset3 span6">
+		<h2>Bienvenido!</h2>
 	</div>
-	<div class="row">
-		<div class="span4">Password: </div>
-		<div class="span8"><input type='password' name='user_password' class="span8"></div>
-	</div>	
-	<div class="row">
-		<div class="offset4 span8"><input type='submit' class="btn btn-primary pull-right"/></div>
+
+	<div class="offset3 span6">
+		<form action='index' method='POST' class="form form-horizontal">
+			<fieldset>
+				<legend>User login</legend>
+				<div class="control-group">
+					<label class="control-label">User:</label>
+					<div class="controls">
+						<input type='text' name='user_name' class="input-xlarge">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Password:</label>
+					<div class="controls">
+						<input type='password' name='user_password' class="input-xlarge">
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type='submit' class="btn btn-primary"/>
+					</div>
+				</div>
+			</fieldset>
+		</form>
 	</div>
-</form>
+</div>
+
+		

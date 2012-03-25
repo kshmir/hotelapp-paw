@@ -7,6 +7,12 @@ import java.util.Map;
 import ar.edu.itba.it.paw.hotelapp.model.api.User;
 import ar.edu.itba.it.paw.hotelapp.repositories.api.UserRepository;
 
+/**
+ * Base repository implementation for quick applications
+ * 
+ * @author cris
+ * 
+ */
 public class InMemoryUserRepository implements UserRepository {
 	private Map<String, User> userMap;
 
@@ -15,6 +21,15 @@ public class InMemoryUserRepository implements UserRepository {
 		for (final User u : users) {
 			this.userMap.put(u.getUserName(), u);
 		}
+	}
+
+	public User getUserById(final int id) {
+		for (final User user : this.userMap.values()) {
+			if (user.getId() == id) {
+				return user;
+			}
+		}
+		return null;
 	}
 
 	public User getUser(final String userName) {

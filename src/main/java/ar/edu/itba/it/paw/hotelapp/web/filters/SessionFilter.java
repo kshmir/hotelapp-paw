@@ -38,7 +38,9 @@ public class SessionFilter implements Filter {
 		final Manager<User> userResolver = new SessionUserManager(httpRequest);
 
 		if ((userResolver.resolve() != null || httpRequest.getServletPath()
-				.equals("/index")) && !userResolver.unlink()) {
+				.equals("/index"))
+				&& !userResolver.unlink()
+				&& !httpRequest.getServletPath().equals("/")) {
 			chain.doFilter(request, response);
 		} else {
 			final HttpServletResponse httpResponse = (HttpServletResponse) response;

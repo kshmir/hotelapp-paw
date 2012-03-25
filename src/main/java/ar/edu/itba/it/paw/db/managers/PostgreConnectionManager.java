@@ -7,11 +7,28 @@ import java.util.Properties;
 
 import ar.edu.itba.it.paw.db.ConnectionManager;
 
+/**
+ * Provides a JDBC connection to a PgSQL server.
+ * 
+ * @author cris
+ */
 public class PostgreConnectionManager implements ConnectionManager {
 
 	private final String connectionString;
 
-	final Driver driver = new org.postgresql.Driver();
+	private Connection conn;
+
+	private Driver driver = new org.postgresql.Driver();
+
+	private String username = "cris";
+	private String password = "holahola";
+
+	public PostgreConnectionManager(final String connectionString,
+			final String username, final String password) {
+		this.connectionString = connectionString;
+		this.username = username;
+		this.password = password;
+	}
 
 	public PostgreConnectionManager(final String connectionString) {
 		this.connectionString = connectionString;
@@ -27,9 +44,14 @@ public class PostgreConnectionManager implements ConnectionManager {
 	}
 
 	public Connection getConnection() throws SQLException {
-		final Properties props = new Properties();
-		props.setProperty("user", "cris");
-		props.setProperty("password", "holahola");
-		return this.driver.connect(this.connectionString, props);
+		if (this.conn == null) {
+			final Properties props = new Properties();
+			props.setProperty("user", this.username);
+			props.setProperty("password", this.password);
+			this.conn = this.driver.connect(this.connectionString, props);
+		}
+
+		return this.conn;
+
 	}
 }

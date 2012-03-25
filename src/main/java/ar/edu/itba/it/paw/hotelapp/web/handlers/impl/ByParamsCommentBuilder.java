@@ -8,12 +8,17 @@ import ar.edu.itba.it.paw.hotelapp.model.impl.SimpleComment;
 import ar.edu.itba.it.paw.hotelapp.web.handlers.api.Builder;
 import ar.edu.itba.it.paw.hotelapp.web.handlers.api.Resolver;
 
-public class ByParamsHotelCommentBuilder implements Builder<Comment> {
+/**
+ * Builds a comment from the parameters send to the servlet
+ * 
+ * @author cris
+ */
+public class ByParamsCommentBuilder implements Builder<Comment> {
 
 	private HttpServletRequest request;
 	private Resolver<User> userResolver;
 
-	public ByParamsHotelCommentBuilder(final HttpServletRequest request,
+	public ByParamsCommentBuilder(final HttpServletRequest request,
 			final Resolver<User> userResolver) {
 		this.request = request;
 		this.userResolver = userResolver;

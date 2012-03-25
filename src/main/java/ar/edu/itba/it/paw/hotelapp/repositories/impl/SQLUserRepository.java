@@ -26,6 +26,44 @@ public class SQLUserRepository implements UserRepository {
 		}
 	}
 
+	private User fetchUser(final ResultSet set, final int id)
+			throws SQLException {
+		final String name = set.getString("username");
+		final String _password = set.getString("password");
+		final String email = set.getString("email");
+
+		final User user = new SimpleUser(name, _password, email);
+
+		user.setId(id);
+
+		return user;
+	}
+
+	public User getUserById(final int id) {
+		User user = null;
+		Connection conn = null;
+		try {
+			conn = this.dispatcher.getConnection();
+			final PreparedStatement statement = conn
+					.prepareStatement("SELECT * FROM users WHERE id = ?");
+
+			statement.setInt(1, id);
+
+			statement.execute();
+			final ResultSet set = statement.getResultSet();
+
+			while (set.next() && !set.isAfterLast()) {
+				user = this.fetchUser(set, id);
+			}
+		} catch (final SQLException e) {
+			e.printStackTrace();
+		} catch (final Exception e) {
+			e.printStackTrace();
+		} finally {
+		}
+		return user;
+	}
+
 	public User getUser(final String userName) {
 		return this.getUser(userName, null);
 	}
@@ -50,13 +88,7 @@ public class SQLUserRepository implements UserRepository {
 
 			while (set.next() && !set.isAfterLast()) {
 				final int id = set.getInt("id");
-				final String name = set.getString("username");
-				final String _password = set.getString("password");
-				final String email = set.getString("email");
-
-				user = new SimpleUser(name, _password, email);
-
-				user.setId(id);
+				user = this.fetchUser(set, id);
 			}
 		} catch (final SQLException e) {
 			e.printStackTrace();
@@ -72,13 +104,19 @@ public class SQLUserRepository implements UserRepository {
 		try {
 			conn = this.dispatcher.getConnection();
 			final PreparedStatement statement = conn
-					.prepareStatement("INSERT INTO USERS VALUES (NULL, ?, ?, ?)");
+					.prepareStatement(
+							"INSERT INTO USERS(email, username, password) VALUES (?, ?, ?)",
+							PreparedStatement.RETURN_GENERATED_KEYS);
 
 			statement.setString(1, user.getEmail());
 			statement.setString(2, user.getUserName());
 			statement.setString(3, user.getPassword());
 
 			statement.execute();
+
+			final ResultSet set = statement.getGeneratedKeys();
+
+			user.setId(set.getInt(1));
 
 		} catch (final SQLException e) {
 			e.printStackTrace();

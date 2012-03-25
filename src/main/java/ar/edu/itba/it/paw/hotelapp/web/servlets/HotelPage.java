@@ -1,27 +1,25 @@
 package ar.edu.itba.it.paw.hotelapp.web.servlets;
 
-import static ar.edu.itba.it.paw.hotelapp.web.util.HtmlHelper.bodyTagClose;
-import static ar.edu.itba.it.paw.hotelapp.web.util.HtmlHelper.bodyTagOpen;
-import static ar.edu.itba.it.paw.hotelapp.web.util.HtmlHelper.htmlTagClose;
-import static ar.edu.itba.it.paw.hotelapp.web.util.HtmlHelper.htmlTagOpen;
-
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.itba.it.paw.hotelapp.model.api.Comment;
 import ar.edu.itba.it.paw.hotelapp.model.api.Hotel;
 import ar.edu.itba.it.paw.hotelapp.repositories.RepositoryFactory;
 import ar.edu.itba.it.paw.hotelapp.repositories.api.HotelRepository;
+import ar.edu.itba.it.paw.hotelapp.web.handlers.api.Updater;
+import ar.edu.itba.it.paw.hotelapp.web.handlers.impl.ByParamsHotelUpdater;
+import ar.edu.itba.it.paw.hotelapp.web.util.HtmlHelper;
 import ar.edu.itba.it.paw.hotelapp.web.util.PathResolver;
 
 public class HotelPage extends HttpServlet {
 
 	private static final long serialVersionUID = -409882906155515870L;
+
+	private static final String showPage = "hotels/show.jsp";
 
 	@Override
 	protected void doGet(final HttpServletRequest req,
@@ -35,58 +33,56 @@ public class HotelPage extends HttpServlet {
 			final Hotel hotel = hotelRepository.getHotelById(PathResolver
 					.getResourceIdFromPath(req.getPathInfo()));
 
-			final PrintWriter writer = resp.getWriter();
+			req.setAttribute("hotel", hotel);
 
-			htmlTagOpen(writer);
-			bodyTagOpen(writer);
-
-			writer.write("<h1>");
-
-			writer.write(hotel.getName());
-
-			writer.write("</h1>");
-
-			writer.write("<p>");
-
-			writer.write(hotel.getDescription());
-
-			writer.write("</p>");
-
-			writer.write("<p> Codigo: ");
-
-			writer.write(String.valueOf(hotel.getId()));
-
-			writer.write("<hr/>");
-
-			writer.write("<h3>Comentarios</h3>");
-
-			writer.write("<ul>");
-			for (final Comment comment : hotel.getComments()) {
-				writer.write("<li>");
-				writer.write("Por: " + comment.getUser().getUserName() + " ("
-						+ comment.getUser().getEmail() + ")");
-				writer.write("<br/>");
-				writer.write("<b>" + comment.getContent() + "</b>");
-				writer.write("</li>");
-			}
-			writer.write("</ul>");
-
-			writer.write("<form method='POST' action='"
-					+ req.getContextPath()
-					+ "/comments' ><input type='hidden' name='hotel_id' value='"
-					+ hotel.getId()
-					+ "'><input type='text' name='comment_content'><input type='submit'/></form>");
-
-			writer.write("<hr/>");
-
-			writer.write("</p>");
-
-			bodyTagClose(writer);
-			htmlTagClose(writer);
+			HtmlHelper.render(showPage, req, resp);
 
 		} catch (final Exception e) {
 			resp.setStatus(404);
 			resp.sendRedirect("../error");
 		}
+	}
+
+	@Override
+	protected void doPost(final HttpServletRequest req,
+			final HttpServletResponse resp) throws ServletException,
+			IOException {
+		final HotelRepository hotelRepository = RepositoryFactory
+				.getHotelRepository();
+
+		final Updater<Hotel> updater = new ByParamsHotelUpdater(req);
+
+		try {
+			Hotel hotel = hotelRepository.getHotelById(PathResolver
+					.getResourceIdFromPath(req.getPathInfo()));
+
+			hotel = updater.update(hotel);
+
+			hotelRepository.saveOrUpdateHotel(hotel);
+
+			resp.sendRedirect(req.getHeader("Referer"));
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	protected void doDelete(final HttpServletRequest req,
+			final HttpServletResponse resp) throws ServletException,
+			IOException {
+
+		final HotelRepository hotelRepository = RepositoryFactory
+				.getHotelRepository();
+
+		try {
+			final Hotel hotel = hotelRepository.getHotelById(PathResolver
+					.getResourceIdFromPath(req.getPathInfo()));
+
+			hotelRepository.deleteHotel(hotel);
+
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 }
