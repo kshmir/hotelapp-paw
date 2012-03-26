@@ -1,1 +1,1 @@
-web:    java -cp target/classes:target/dependency/* ar.edu.itba.it.paw.hotelapp.web.Start
+web:    sh target/bin/webapp
